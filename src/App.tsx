@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import InputField from './components/InputField';
+import { Todo } from './model/Model';
+import TodoList from './components/TodoList';
 
 function App() {
+  const [todo, settodo] = useState<string>('');
+  const [Todos, setTodos] = useState<Array<Todo>>([])
+
+  const addTodo = (e:React.FormEvent) =>{
+    console.log(todo)
+    e.preventDefault();
+    if(todo){
+      setTodos([...Todos,{id: Date.now(), todo:todo, isDone:false}]);
+      settodo('');
+      console.log(Todos)
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='flex flex-col justify-center items-center gap-7'>
+        <div className='text-[30px] mt-4'>Taskify</div>
+        <InputField todo={todo} settodo={settodo} addTodo={addTodo}/>
+        <TodoList Todos={Todos} setTodos={setTodos}/>
+      </div>
+    </>
   );
 }
 
